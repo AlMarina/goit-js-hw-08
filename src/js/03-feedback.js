@@ -10,26 +10,23 @@ formEl.addEventListener('submit', handlerSubmit);
 
 
 function hahdlerLoad() { 
-    const save = localStorage.getItem(LOCALSTORAGE_KEY)
-    if (save)
-    {
-        const saveData = JSON.parse(save);
-        const {
-    elements: { email, message }
-  } = formEl;
-    email.value = saveData.email;
-    message.value = saveData.message;
-     }
+   try {
+  const save = localStorage.getItem(LOCALSTORAGE_KEY)
+    if (save) {
+      const saveData = JSON.parse(save);
 
+      Object.entries(saveData).forEach(([key, val]) => formEl.elements[key].value = val)
+    };
+  } catch (error) { 
+    console.log(error.name); 
+    console.log(error.message);
+  }
 }
 
 function handlerSubmit(evt) { 
 
     evt.preventDefault();
-     if (!dataInput.email || !dataInput.message) {
-        alert('УВАГА! Заповніть усі поля!');
-        return;
-      }
+    
     console.log(dataInput);
     evt.currentTarget.reset();
     localStorage.removeItem(LOCALSTORAGE_KEY);
